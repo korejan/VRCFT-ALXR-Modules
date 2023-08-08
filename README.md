@@ -24,6 +24,7 @@ Both the ALXR local and remote modules currently support the following OpenXR ex
 | [XR_EXT_eye_gaze_interaction](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_EXT_eye_gaze_interaction) | [VDXR](https://github.com/mbucchia/VirtualDesktop-OpenXR), Pico 4 Pro/Enterprise, Pico Neo 3 Pro Eye, *Vive Pro Eye, Focus 3 / XR Elite add-ons, Magic Leap 2, WMR / Hololens 2, Varjo, Quest Pro (standalone runtime only), and more |
 | [XR_FB_eye_tracking_social](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_FB_eye_tracking_social) | Quest Pro standalone & Link runtimes, [VDXR](https://github.com/mbucchia/VirtualDesktop-OpenXR) |
 | [XR_HTC_facial_tracking](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_HTC_facial_tracking) | *Vive Facial Tracker, Focus 3 / XR Elite add-ons |
+| XR_FB_face_tracking2 | Quest Pro standalone & Link runtimes |
 | [XR_FB_face_tracking](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_FB_face_tracking) | Quest Pro standalone & Link runtimes, [VDXR](https://github.com/mbucchia/VirtualDesktop-OpenXR) |
 
 A full list of supported runtimes/devices can be found [here](https://github.khronos.org/OpenXR-Inventory/extension_support.html#matrix).
@@ -38,7 +39,11 @@ This module is exclusively for PC OpenXR runtimes on Windows such as Oculus's PC
 
 1. Set the relevant active OpenXR runtime.
     * Runtimes such as Oculus-Link require enabling additional settings and/or require a dev account associated with the device before facial/eye tracking can be used.
-2. Install the module either within VRCFT or download via the release page (`ALXRLocalModule.zip`) and select the zip file in the Module registry page of VRCFT.
+2. Install the module from VRCFT Module Registry Page. <b><i>For manual installation only do the following:</i></b>
+   1. Download via the release page (`ALXRLocalModule.zip`)
+   2. Delete any previous versions
+   3. Extract the archive to `C:\Users\your-user-name\AppData\Roaming\VRCFaceTracking\CustomLibs`
+   4. Delete `module.json` from the extracted location.
 3. Run VRCFT
 
 ## ALXR Remote Module
@@ -49,10 +54,14 @@ This module is used to receive facial/eye tracking data from ALXR clients over a
 
 1. Download and install the relevant ALXR client and server from the [ALXR-nightly](https://github.com/korejan/ALXR-nightly/releases) repository.
    * The VRCFT v4 module method of obtaining the client from the ALXR-experimental repository is no longer supported, all facial/eye support has been merged into the main branch.
-2. Install the module either within VRCFT or download via the release page (`ALXRRemoteModule.zip`) and select the zip file in the Module registry page of VRCFT.
-3. In `ALXRModuleConfig.json`, in the `"RemoteConfig"` section set `"ClientIpAddress"` to the headset IP, this can be found in the ALVR server dashboard.
+2. Install the module from VRCFT Module Registry Page. <b><i>For manual installation only do the following:</i></b>
+   1. Download via the release page (`ALXRLocalModule.zip`)
+   2. Delete any previous versions
+   3. Extract the archive to `C:\Users\your-user-name\AppData\Roaming\VRCFaceTracking\CustomLibs`
+   4. Delete `module.json` from the extracted location.
+4. In `ALXRModuleConfig.json` (desktop shortcut), in the `"RemoteConfig"` section set `"ClientIpAddress"` to the headset IP, this can be found in the ALVR server dashboard.
    * If the client is being run on the same host as the server (e.g. alxr windows client), use localhost IP (default) and set the server to TCP protocol.
-4. Run VRCFT.
+5. Run VRCFT.
 
 ## Module Settings
 
@@ -139,6 +148,7 @@ The following entries in `ALXRModuleConfig.json` are specifically for configurin
 
 `FacialTrackingExt` - Sets the face tracking OpenXR extensions or can be used disable. The following options are:
 * `"None"` - No face-tracking extensions enabled
+* `"FB_V2"` - Typically Quest Pro
 * [`"FB"`](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_FB_face_tracking) - Typically Quest Pro
 * [`"HTC"`](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_HTC_facial_tracking) - Typically vive facial tracker (requires "Vive console for SteamVR") or Focus 3 facial tracker add-on
 * `"Auto"` - default, auto selects any available in the above order.
