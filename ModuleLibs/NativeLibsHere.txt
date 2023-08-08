@@ -1,0 +1,2 @@
+﻿You can put native libalxr binaries in this folder, they will be copied to appropriate location, post-build.
+

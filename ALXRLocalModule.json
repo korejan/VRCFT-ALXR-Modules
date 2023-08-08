@@ -1,0 +1,15 @@
+{
+  "ModuleId": "19ba52ba-ba20-4dd3-afa0-359f54b858af",
+  "LastUpdated": "2023-04-20T01:08:01Z",
+  "Version": "1.0.0",
+  "Downloads": 0,
+  "Ratings": 0,
+  "Rating": 0,
+  "AuthorName": "korejan",
+  "ModuleName": "ALXR Local Module",
+  "ModuleDescription": "The module provides eye and/or facial tracking for PC OpenXR runtimes only (e.g. Link/AirLink) via libalxr.",
+  "UsageInstructions": "Set the active OpenXR runtime to the desired runtime and enable any relevant settings, start the runtime then run VRCFT. Details on config options/setup can be found on docs.vrcft.io or github repo.",
+  "DownloadUrl": "https://github.com/korejan/VRCFT-ALXR-Modules/releases/download/1.0.0/ALXRLocalModule.zip",
+  "ModulePageUrl": "https://github.com/korejan/VRCFT-ALXR-Modules",
+  "DllFileName": "ALXRLocalModule.dll"
+}

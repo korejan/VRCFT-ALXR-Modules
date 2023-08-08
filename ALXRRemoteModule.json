@@ -1,0 +1,15 @@
+{
+  "ModuleId": "cb54e4bd-969c-47cd-934d-eb3293575b6e",
+  "LastUpdated": "2023-04-20T01:08:01Z",
+  "Version": "1.0.0",
+  "Downloads": 0,
+  "Ratings": 0,
+  "Rating": 0,
+  "AuthorName": "korejan",
+  "ModuleName": "ALXR Remote Module",
+  "ModuleDescription": "The module provides OpenXR eye and/or facial tracking for variety of standalone & wired headsets via remote ALXR clients.",
+  "UsageInstructions": "Run VRCFT once and exit, add the client IP address to the generated ALXRModuleConfig.json desktop shortcut and run VRCFT. Details on other config options/setup can be found on docs.vrcft.io or github repo.",
+  "DownloadUrl": "https://github.com/korejan/VRCFT-ALXR-Modules/releases/download/1.0.0/ALXRRemoteModule.zip",
+  "ModulePageUrl": "https://github.com/korejan/VRCFT-ALXR-Modules",
+  "DllFileName": "ALXRRemoteModule.dll"
+}

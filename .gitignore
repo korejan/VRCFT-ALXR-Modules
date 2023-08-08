@@ -1,0 +1,5 @@
+.vs/
+bin/
+obj/
+ModuleLibs/*
+!ModuleLibs/NativeLibsHere.txt

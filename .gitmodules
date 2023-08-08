@@ -1,0 +1,3 @@
+[submodule "libalxr-sharp"]
+	path = libalxr-sharp
+	url = https://github.com/korejan/libalxr-sharp.git
