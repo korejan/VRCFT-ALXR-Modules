@@ -205,6 +205,7 @@ namespace ALXRLocalModule
                 graphicsApi = config.GraphicsApi,
                 decoderType = ALXRDecoderType.D311VA,
                 displayColorSpace = ALXRColorSpace.Default,
+                passthroughMode = ALXRPassthroughMode.None,
                 facialTracking = config.FacialTrackingExt,
                 eyeTracking = config.EyeTrackingExt,
                 trackingServerPortNo = ALXRClientConfig.DefaultPortNo,
