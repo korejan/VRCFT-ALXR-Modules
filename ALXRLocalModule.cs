@@ -215,6 +215,7 @@ namespace ALXRLocalModule
                 noFrameSkip = false,
                 disableLocalDimming = true,
                 headlessSession = config.HeadlessSession,
+                simulateHeadless = config.SimulateHeadless,
                 noFTServer = true,
                 noPassthrough = true,
                 noHandTracking = true, //!config.EnableHandleTracking, temp disabled for future OSC supprot.
