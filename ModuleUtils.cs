@@ -74,8 +74,6 @@ namespace ALXR
                 ALXRModuleConfig.WriteJsonFile(configFile);
 
                 logger.LogInformation($"alxr-config successfully written.");
-
-                SaveConfigShortcut(configFile, logger);
                 return true;
             }
             catch (Exception ex)
@@ -98,7 +96,12 @@ namespace ALXR
                 var shortcutLocation = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                     lnkFilename
-                );                
+                );
+                if (Path.Exists(shortcutLocation))
+                {
+                    logger.LogInformation($"Shortcut to {filename} already exists, skipping shortcut creation.");
+                    return false;
+                }
                 var shell = new IWshRuntimeLibrary.WshShell();
                 var shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutLocation);
                 shortcut.Description = $"Shortcut to {Path.GetFileName(filename)}";   // The description of the shortcut
@@ -123,6 +126,9 @@ namespace ALXR
                 moduleConfig = new ALXRModuleConfig();
                 SaveConfig(moduleConfig, logger, filename);
             }
+            
+            SaveConfigShortcut(filename, logger);
+
             Debug.Assert(moduleConfig != null);
             var eyeTrackingConfig = moduleConfig.EyeTrackingConfig;
             UseEyeExpressionForGazePose = eyeTrackingConfig.UseEyeExpressionForGazePose;
