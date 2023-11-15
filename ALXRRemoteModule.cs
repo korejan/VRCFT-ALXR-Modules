@@ -39,7 +39,7 @@ namespace ALXRRemoteModule
                 Array.ForEach(poseFilters, p => p.FilterParams = filterParams);
 
                 LoadTrackingSensitivity(config, Logger);
-                return (true, true);
+                return (eyeActive, lipActive);
             }
             catch (Exception ex)
             {

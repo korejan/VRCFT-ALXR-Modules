@@ -22,9 +22,6 @@ namespace ALXRLocalModule
 
         private ALXRClientCtx alxrCtx;
 
-        private bool eyeActive = true;
-        private bool lipActive = true;
-
         public override (bool SupportsEye, bool SupportsExpression) Supported => (true, true);
 
         public override (bool eyeSuccess, bool expressionSuccess) Initialize(bool eyeAvailable, bool expressionAvailable)
@@ -40,9 +37,6 @@ namespace ALXRLocalModule
                     return (false, false);
                 }
 
-                eyeActive = eyeAvailable;
-                lipActive = expressionAvailable;
-
                 config = LoadOrNewConfig(Logger);
                 Debug.Assert(config != null);
                 
@@ -51,15 +45,27 @@ namespace ALXRLocalModule
 
                 LoadTrackingSensitivity(config, Logger);
 
-                alxrCtx = CreateALXRClientCtx(ref config.LocalConfig);
+                alxrCtx = CreateALXRClientCtx(ref config.LocalConfig, eyeAvailable, expressionAvailable);
                 Debug.Assert(alxrCtx.pathStringToHash != null);
 
-                return (true, true);
+                return (IsEyeTrackingEnabled, IsFaceTrackingEnabled);
 
             } catch (Exception ex) {
                 Logger.Log(LogLevel.Error, ex.ToString());
                 return (false, false);
             }
+        }
+
+        private bool IsEyeTrackingEnabled
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => alxrCtx.eyeTracking != ALXREyeTrackingType.None;
+        }
+
+        private bool IsFaceTrackingEnabled
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => alxrCtx.facialTracking != ALXRFacialExpressionType.None;
         }
 
         private void ALXRLogOuput(ALXRLogLevel level, string output, uint len)
@@ -164,7 +170,7 @@ namespace ALXRLocalModule
             }
 
             ApplyFilters(ref frameResult.facialEyeTracking);
-            UpdateData(ref frameResult.facialEyeTracking, eyeActive, lipActive);
+            UpdateData(ref frameResult.facialEyeTracking, IsEyeTrackingEnabled, IsFaceTrackingEnabled);
 
             if (!alxr_is_session_running())
             {
@@ -183,14 +189,14 @@ namespace ALXRLocalModule
         private void ApplyFilters(ref ALXRFacialEyePacket newPacket)
         {
             Debug.Assert(config != null);
-            if (!config.EyeTrackingConfig.EyeTrackingFilterParams.Enable)
+            if (!IsEyeTrackingEnabled || !config.EyeTrackingConfig.EyeTrackingFilterParams.Enable)
                 return;            
             var deltaTime = (float)stopwatch.Elapsed.TotalSeconds;
             stopwatch.Restart();
             ApplyEyeGazeFilters(deltaTime, ref newPacket);
         }
 
-        private static ALXRClientCtx CreateALXRClientCtx(ref LibALXRConfig config)
+        private ALXRClientCtx CreateALXRClientCtx(ref LibALXRConfig config, bool eyeAvailable, bool expressionAvailable)
         {
             return new ALXRClientCtx
             {
@@ -206,8 +212,8 @@ namespace ALXRLocalModule
                 decoderType = ALXRDecoderType.D311VA,
                 displayColorSpace = ALXRColorSpace.Default,
                 passthroughMode = ALXRPassthroughMode.None,
-                facialTracking = config.FacialTrackingExt,
-                eyeTracking = config.EyeTrackingExt,
+                facialTracking = GetFacialExpressionType(ref config, eyeAvailable),
+                eyeTracking = GetEyeTrackingType(ref config, expressionAvailable),
                 trackingServerPortNo = ALXRClientConfig.DefaultPortNo,
                 verbose = config.VerboseLogs,
                 disableLinearizeSrgb = false,
@@ -228,6 +234,20 @@ namespace ALXRLocalModule
                     patch = 0
                 }
             };
+        }
+
+        private ALXRFacialExpressionType GetFacialExpressionType(ref LibALXRConfig config, bool eyeAvailable)
+        {
+            if (!eyeAvailable)
+                return ALXRFacialExpressionType.None;
+            return config.FacialTrackingExt;
+        }
+
+        private ALXREyeTrackingType GetEyeTrackingType(ref LibALXRConfig config, bool expressionAvailable)
+        {
+            if (!expressionAvailable)
+                return ALXREyeTrackingType.None;
+            return config.EyeTrackingExt;
         }
     }
 }
