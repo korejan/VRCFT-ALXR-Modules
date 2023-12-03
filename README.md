@@ -48,7 +48,7 @@ This module is used to receive facial/eye tracking data from ALXR clients over a
 ### Remote Module Basic Setup
 
 1. Download and install the relevant ALXR client and server from the [ALXR-nightly](https://github.com/korejan/ALXR-nightly/releases) repository.
-   * The v4 module method of obtaining the client from the ALXR-experimental repository is no longer supported, all facial/eye support has been merged into the main branch.
+   * The VRCFT v4 module method of obtaining the client from the ALXR-experimental repository is no longer supported, all facial/eye support has been merged into the main branch.
 2. Install the module either within VRCFT or download via the release page (`ALXRRemoteModule.zip`) and select the zip file in the Module registry page of VRCFT.
 3. In `ALXRModuleConfig.json`, in the `"RemoteConfig"` section set `"ClientIpAddress"` to the headset IP, this can be found in the ALVR server dashboard.
    * If the client is being run on the same host as the server (e.g. alxr windows client), use localhost IP (default) and set the server to TCP protocol.
