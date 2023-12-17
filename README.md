@@ -39,7 +39,7 @@ This module is exclusively for PC OpenXR runtimes on Windows such as Oculus's PC
 
 1. Set the relevant active OpenXR runtime.
     * Runtimes such as Oculus-Link require enabling additional settings and/or require a dev account associated with the device before facial/eye tracking can be used.
-2. Install the module from VRCFT Module Registry Page. <b><i>For manual installation only do the following:</i></b>
+2. Install the "ALXR Local Module" from VRCFT Module Registry Page. <b><i>For manual installation only do the following:</i></b>
    1. Download via the release page (`ALXRLocalModule.zip`)
    2. Delete any previous versions
    3. Extract the archive to `C:\Users\your-user-name\AppData\Roaming\VRCFaceTracking\CustomLibs`
@@ -54,12 +54,12 @@ This module is used to receive facial/eye tracking data from ALXR clients over a
 
 1. Download and install the relevant ALXR client and server from the [ALXR-nightly](https://github.com/korejan/ALXR-nightly/releases) repository.
    * The VRCFT v4 module method of obtaining the client from the ALXR-experimental repository is no longer supported, all facial/eye support has been merged into the main branch.
-2. Install the module from VRCFT Module Registry Page. <b><i>For manual installation only do the following:</i></b>
-   1. Download via the release page (`ALXRLocalModule.zip`)
+2. Install the "ALXR Remote Module" from VRCFT Module Registry Page. <b><i>For manual installation only do the following:</i></b>
+   1. Download via the release page (`ALXRRemoteModule.zip`)
    2. Delete any previous versions
    3. Extract the archive to `C:\Users\your-user-name\AppData\Roaming\VRCFaceTracking\CustomLibs`
    4. Delete `module.json` from the extracted location.
-4. In `ALXRModuleConfig.json` (desktop shortcut), in the `"RemoteConfig"` section set `"ClientIpAddress"` to the headset IP, this can be found in the ALVR server dashboard.
+4. In `ALXRModuleConfig.json` (desktop shortcut is generated on first run), in the `"RemoteConfig"` section set `"ClientIpAddress"` to the headset IP, this can be found in the ALVR server dashboard.
    * If the client is being run on the same host as the server (e.g. alxr windows client), use localhost IP (default) and set the server to TCP protocol.
 5. Run VRCFT.
 
