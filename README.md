@@ -1,6 +1,6 @@
 # VRCFT-ALXR-Modules
 
-This repository contains the source and binaries for two OpenXR based VRFCT module plugins, ALXR [Local](#alxr-local-module) and [Remote](#alxr-remote-module) modules.
+This repository contains the source and binaries for two OpenXR based [VRFCT](https://docs.vrcft.io/) module plugins, ALXR [Local](#alxr-local-module) and [Remote](#alxr-remote-module) modules.
 
 ### Table of Contents
 - [VRCFT-ALXR-Modules](#vrcft-alxr-modules)
