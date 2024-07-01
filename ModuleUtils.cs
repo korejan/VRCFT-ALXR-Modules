@@ -244,46 +244,25 @@ namespace ALXR
         }
         #endregion
 
-        #region UpdateEyeGaze Helpers
-
-        private const double DegreesToRadF64 = Math.PI / 180.0;
-        private const float  DegreesToRadF32 = (float)DegreesToRadF64;
-
-        private const double RadToDegreesF64 = 180.0 / Math.PI;
-        private const float  RadToDegreesF32 = (float)RadToDegreesF64;
-
-        private struct CurveConstants
+        private static Vector2 NormalizedGaze(ALXRQuaternionf q)
         {
-            public const double C1 = 4.0;
-            public const double C2 = 6.0;
-            public const double C4 = 30.0;
-            public const double C3 = 1.0 / C4;
-            public const double C5 = 1.0 / 27.0;
-            public const double C6 = 18.0;
+            float magnitude = (float)Math.Sqrt(q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
+            float xm = q.x / magnitude;
+            float ym = q.y / magnitude;
+            float zm = q.z / magnitude;
+            float wm = q.w / magnitude;
+
+            float pitch = (float)Math.Asin(2*(xm*zm - wm*ym));
+            float yaw = (float)Math.Atan2(2.0*(ym*zm + wm*xm), wm*wm - xm*xm - ym*ym + zm*zm);
+
+            return new Vector2(pitch, yaw);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void UpdateEyeGaze(ref UnifiedEyeData eye, ref ALXRFacialEyePacket packet)
         {
-            var q = packet.eyeGazePose0.orientation;
-            var pitch_L = RadToDegreesF64 * q.Pitch;
-            var yaw_L   = RadToDegreesF64 * q.Yaw;
-
-            q = packet.eyeGazePose1.orientation;
-            var pitch_R = RadToDegreesF64 * q.Pitch;
-            var yaw_R   = RadToDegreesF64 * q.Yaw;
-
-            var pitch_R_mod = (float)(Math.Abs(pitch_R) + CurveConstants.C1 * Math.Pow(Math.Abs(pitch_R) * CurveConstants.C3, CurveConstants.C4)); // curves the tail end to better accomodate actual eye pos.
-            var pitch_L_mod = (float)(Math.Abs(pitch_L) + CurveConstants.C1 * Math.Pow(Math.Abs(pitch_L) * CurveConstants.C3, CurveConstants.C4));
-            var yaw_R_mod   = (float)(Math.Abs(yaw_R) + CurveConstants.C2 * Math.Pow(Math.Abs(yaw_R) * CurveConstants.C5, CurveConstants.C6)); // curves the tail end to better accomodate actual eye pos.
-            var yaw_L_mod   = (float)(Math.Abs(yaw_L) + CurveConstants.C2 * Math.Pow(Math.Abs(yaw_L) * CurveConstants.C5, CurveConstants.C6));
-
-            eye.Right.Gaze = new Vector2(
-                DegreesToRadF32 * (pitch_R < 0f ? pitch_R_mod : -1f * pitch_R_mod),
-                DegreesToRadF32 * (yaw_R < 0f ? -1f * yaw_R_mod : (float)yaw_R));
-            eye.Left.Gaze = new Vector2(
-                DegreesToRadF32 * (pitch_L < 0f ? pitch_L_mod : -1f * pitch_L_mod),
-                DegreesToRadF32 * (yaw_L < 0f ? -1f * yaw_L_mod : (float)yaw_L));
+            eye.Right.Gaze = NormalizedGaze(packet.eyeGazePose1.orientation);
+            eye.Left.Gaze = NormalizedGaze(packet.eyeGazePose0.orientation);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
