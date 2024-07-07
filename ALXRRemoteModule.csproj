@@ -6,7 +6,7 @@
     <Nullable>warnings</Nullable>
     <Platforms>x64</Platforms>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,12 +36,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="VRCFaceTracking.Core">
-      <HintPath>..\..\Program Files\WindowsApps\96ba052f-0948-44d8-86c4-a0212e4ae047_5.1.1.0_x64__d7rcq4vxghz0r\VRCFaceTracking.Core.dll</HintPath>
+      <HintPath>..\..\Program Files\WindowsApps\96ba052f-0948-44d8-86c4-a0212e4ae047_5.2.3.0_x64__4s4k90pjvq32p\VRCFaceTracking.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="VRCFaceTracking.SDK">
+      <HintPath>..\..\Program Files\WindowsApps\96ba052f-0948-44d8-86c4-a0212e4ae047_5.2.3.0_x64__4s4k90pjvq32p\VRCFaceTracking.SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

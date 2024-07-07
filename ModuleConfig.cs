@@ -48,6 +48,8 @@ namespace ALXR
         public ALXREyeTrackingType EyeTrackingExt;
         [JsonInclude]
         public ALXRFacialExpressionType FacialTrackingExt;
+        [JsonInclude]
+        public List<ALXRFaceTrackingDataSource> FaceTrackingDataSources;
 
         public static LibALXRConfig Default
         {
@@ -59,7 +61,11 @@ namespace ALXR
                 SimulateHeadless = true,
                 GraphicsApi = ALXRGraphicsApi.Auto,
                 EyeTrackingExt = ALXREyeTrackingType.Auto,
-                FacialTrackingExt = ALXRFacialExpressionType.Auto
+                FacialTrackingExt = ALXRFacialExpressionType.Auto,
+                FaceTrackingDataSources = new List<ALXRFaceTrackingDataSource>()
+                {
+                    ALXRFaceTrackingDataSource.VisualSource,
+                },
             };
         }
     }
@@ -183,6 +189,7 @@ namespace ALXR
             jsonOptions.Converters.Add(new EnumStringConverter<ALXRGraphicsApi>());
             jsonOptions.Converters.Add(new EnumStringConverter<ALXREyeTrackingType>());
             jsonOptions.Converters.Add(new EnumStringConverter<ALXRFacialExpressionType>());
+            jsonOptions.Converters.Add(new EnumStringConverter<ALXRFaceTrackingDataSource>());
             jsonOptions.Converters.Add(new EnumStringConverter<FBEyeOpennessMode>());
         }
 

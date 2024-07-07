@@ -121,7 +121,10 @@ The following entries in `ALXRModuleConfig.json` are specifically for configurin
   "SimulateHeadless": true,
   "GraphicsApi": "Auto",
   "EyeTrackingExt": "Auto",
-  "FacialTrackingExt": "Auto"
+  "FacialTrackingExt": "Auto",
+  "FaceTrackingDataSources": [
+      "VisualSource"
+  ]
 }
 ```
 
@@ -152,3 +155,7 @@ The following entries in `ALXRModuleConfig.json` are specifically for configurin
 * [`"FB"`](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_FB_face_tracking) - Typically Quest Pro
 * [`"HTC"`](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_HTC_facial_tracking) - Typically vive facial tracker (requires "Vive console for SteamVR") or Focus 3 facial tracker add-on
 * `"Auto"` - default, auto selects any available in the above order.
+
+`FaceTrackingDataSources` - Sets one or more data sources for face tracking. The following options are:
+* `"VisualSource"` - default, enable visual data source for face tracking.
+* `"AudioSource"` -  enable audio data source for face tracking (not recommended).

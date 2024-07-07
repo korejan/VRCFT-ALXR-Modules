@@ -212,6 +212,7 @@ namespace ALXRLocalModule
                 decoderType = ALXRDecoderType.D311VA,
                 displayColorSpace = ALXRColorSpace.Default,
                 passthroughMode = ALXRPassthroughMode.None,
+                faceTrackingDataSources = GetFaceTrackingDataSourcesFlag(ref config),
                 facialTracking = GetFacialExpressionType(ref config, eyeAvailable),
                 eyeTracking = GetEyeTrackingType(ref config, expressionAvailable),
                 trackingServerPortNo = ALXRClientConfig.DefaultPortNo,
@@ -248,6 +249,22 @@ namespace ALXRLocalModule
             if (!expressionAvailable)
                 return ALXREyeTrackingType.None;
             return config.EyeTrackingExt;
+        }
+
+        private static uint GetFaceTrackingDataSourcesFlag(ref LibALXRConfig config)
+        {
+            uint dataSources = 0;
+            if (config.FaceTrackingDataSources != null)
+            {
+                foreach (var source in config.FaceTrackingDataSources)
+                {
+                    if (source == ALXRFaceTrackingDataSource.VisualSource)
+                        dataSources |= (uint)ALXRFaceTrackingDataSourceFlags.VisualSource;
+                    if (source == ALXRFaceTrackingDataSource.AudioSource)
+                        dataSources |= (uint)ALXRFaceTrackingDataSourceFlags.AudioSource;
+                }
+            }
+            return dataSources;
         }
     }
 }
