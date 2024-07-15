@@ -8,6 +8,7 @@ using LibALXR;
 using ALXR;
 using static LibALXR.LibALXR;
 using static ALXR.ModuleUtils;
+using System.Runtime.InteropServices;
 
 namespace ALXRLocalModule
 {
@@ -19,6 +20,7 @@ namespace ALXRLocalModule
             new XrPosefOneEuroFilter(),
             new XrPosefOneEuroFilter(),
         };
+        public IntPtr internalDataPath = IntPtr.Zero;
 
         private ALXRClientCtx alxrCtx;
 
@@ -30,12 +32,13 @@ namespace ALXRLocalModule
             {
                 ModuleInformation.Name = "ALXR Local Module";
 
-                var nativeDLLDir = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "ModuleLibs");
-                if (!AddDllSearchPath(nativeDLLDir))
+                if (!AddDllSearchPath(NativeDLLDir))
                 {
                     Logger.Log(LogLevel.Error, $"libalxr library path to search failed to be set.");
                     return (false, false);
                 }
+
+                internalDataPath = Marshal.StringToHGlobalAnsi(NativeDLLDir);
 
                 config = LoadOrNewConfig(Logger);
                 Debug.Assert(config != null);
@@ -55,6 +58,9 @@ namespace ALXRLocalModule
                 return (false, false);
             }
         }
+
+        private String NativeDLLDir =>
+            Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "ModuleLibs");
 
         private bool IsEyeTrackingEnabled
         {
@@ -110,6 +116,7 @@ namespace ALXRLocalModule
         public override void Teardown()
         {
             DestroyLibALXR();
+            Marshal.FreeHGlobal(internalDataPath);
         }
 
         private ALXRProcessFrameResult frameResult = new ALXRProcessFrameResult
@@ -212,6 +219,7 @@ namespace ALXRLocalModule
                 decoderType = ALXRDecoderType.D311VA,
                 displayColorSpace = ALXRColorSpace.Default,
                 passthroughMode = ALXRPassthroughMode.None,
+                internalDataPath = internalDataPath,
                 faceTrackingDataSources = GetFaceTrackingDataSourcesFlag(ref config),
                 facialTracking = GetFacialExpressionType(ref config, eyeAvailable),
                 eyeTracking = GetEyeTrackingType(ref config, expressionAvailable),
