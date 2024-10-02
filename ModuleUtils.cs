@@ -306,8 +306,8 @@ namespace ALXR
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void UpdateEyeOpenessHTC(ref UnifiedEyeData eye, ReadOnlySpan<float> expressionWeights)
         {
-            eye.Left.Openness  = expressionWeights[(int)XrEyeExpressionHTC.LeftBlink];
-            eye.Right.Openness = expressionWeights[(int)XrEyeExpressionHTC.RightBlink];
+            eye.Left.Openness  = 1.0f - expressionWeights[(int)XrEyeExpressionHTC.LeftBlink];
+            eye.Right.Openness = 1.0f - expressionWeights[(int)XrEyeExpressionHTC.RightBlink];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
