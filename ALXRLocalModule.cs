@@ -235,6 +235,8 @@ namespace ALXRLocalModule
                 noFTServer = true,
                 noPassthrough = true,
                 noHandTracking = true, //!config.EnableHandleTracking, temp disabled for future OSC supprot.
+                noVisibilityMasks = true,
+                noMultiviewRendering = false,
                 firmwareVersion = new ALXRVersion
                 {
                     // only relevant for android clients.

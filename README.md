@@ -23,13 +23,17 @@ Both the ALXR local and remote modules currently support the following OpenXR ex
 |----------------|-------------------|
 | [XR_EXT_eye_gaze_interaction](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_EXT_eye_gaze_interaction) | [VDXR](https://github.com/mbucchia/VirtualDesktop-OpenXR), Pico 4 Pro/Enterprise, Pico Neo 3 Pro Eye, *Vive Pro Eye, Focus 3 / XR Elite add-ons, Magic Leap 2, WMR / Hololens 2, Varjo, Quest Pro (standalone runtime only), and more |
 | [XR_FB_eye_tracking_social](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_FB_eye_tracking_social) | Quest Pro standalone & Link runtimes, [VDXR](https://github.com/mbucchia/VirtualDesktop-OpenXR) |
-| [XR_HTC_facial_tracking](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_HTC_facial_tracking) | *Vive Facial Tracker, Focus 3 / XR Elite add-ons |
+| [XR_HTC_facial_tracking](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_HTC_facial_tracking) | Vive Facial Tracker *, Focus 3 / XR Elite add-ons |
 | XR_FB_face_tracking2 | Quest Pro standalone & Link runtimes |
 | [XR_FB_face_tracking](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_FB_face_tracking) | Quest Pro standalone & Link runtimes, [VDXR](https://github.com/mbucchia/VirtualDesktop-OpenXR) |
+| [XR_ANDROID_avatar_eyes](https://developer.android.com/develop/xr/openxr/extensions/XR_ANDROID_avatar_eyes) | Android XR (Project Moohan?) **
+| [XR_ANDROID_face_tracking](https://developer.android.com/develop/xr/openxr/extensions/XR_ANDROID_face_tracking) | Android XR ** |
 
 A full list of supported runtimes/devices can be found [here](https://github.khronos.org/OpenXR-Inventory/extension_support.html#matrix).
-
+     
 * Vive Pro Eye / Facial Tracker requires "Vive console for SteamVR" to be installed for OpenXR support.
+
+** Android XR supporting devices not yet known.
 
 ## ALXR Local Module
 
@@ -158,4 +162,4 @@ The following entries in `ALXRModuleConfig.json` are specifically for configurin
 
 `FaceTrackingDataSources` - Sets one or more data sources for face tracking. The following options are:
 * `"VisualSource"` - default, enable visual data source for face tracking.
-* `"AudioSource"` -  enable audio data source for face tracking (not recommended).
+* `"AudioSource"` -  enable audio data source for face tracking ([AudioToExpression](https://developers.meta.com/horizon/blog/audio-to-expression-mixed-reality-blendshapes-movement-sdk-avatars)).
