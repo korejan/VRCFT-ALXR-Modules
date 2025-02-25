@@ -9,6 +9,8 @@ using ALXR;
 using static LibALXR.LibALXR;
 using static ALXR.ModuleUtils;
 using System.Runtime.InteropServices;
+using System.Xml;
+using System.Reflection;
 
 namespace ALXRLocalModule
 {
@@ -32,11 +34,7 @@ namespace ALXRLocalModule
             {
                 ModuleInformation.Name = "ALXR Local Module";
 
-                if (!AddDllSearchPath(NativeDLLDir))
-                {
-                    Logger.Log(LogLevel.Error, $"libalxr library path to search failed to be set.");
-                    return (false, false);
-                }
+                NativeLibrary.SetDllImportResolver(typeof(ALXRLocalModule).Assembly, this.Resolver);
 
                 internalDataPath = Marshal.StringToHGlobalAnsi(NativeDLLDir);
 
@@ -275,6 +273,20 @@ namespace ALXRLocalModule
                 }
             }
             return dataSources;
+        }
+
+        private IntPtr Resolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        {
+            IntPtr handle = IntPtr.Zero;
+            var fullPath = Path.Combine(NativeDLLDir, libraryName);
+#if DEBUG
+            Logger.LogInformation($"Resolving library path: {fullPath}");
+#endif
+            if (NativeLibrary.TryLoad(fullPath, out handle))
+                return handle;
+            if (NativeLibrary.TryLoad(libraryName, out handle))
+                return handle;
+            return IntPtr.Zero;
         }
     }
 }
