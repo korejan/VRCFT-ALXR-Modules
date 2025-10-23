@@ -195,7 +195,7 @@ namespace ALXR
                 case ALXREyeTrackingType.ExtEyeGazeInteraction:
                     UpdateEyeDataEyeGazeEXT(ref UnifiedTracking.Data.Eye, ref packet);
                     break;
-                case ALXREyeTrackingType.AndroidAvatarEyes:
+                case ALXREyeTrackingType.AndroidEyeTracking:
                     UpdateEyeDataANDROID(ref UnifiedTracking.Data.Eye, ref packet);
                     break;
                 default:
@@ -1153,6 +1153,14 @@ namespace ALXR
             #region Nose Expression Set             
             unifiedExpressions[(int)UnifiedExpressions.NoseSneerLeft].Weight = Math.Min(1.0f, expressions[(int)XrFaceParameterIndicesANDROID.Nose_Wrinkler_L] * TrackingSensitivity.NoseSneer);
             unifiedExpressions[(int)UnifiedExpressions.NoseSneerRight].Weight = Math.Min(1.0f, expressions[(int)XrFaceParameterIndicesANDROID.Nose_Wrinkler_R] * TrackingSensitivity.NoseSneer);
+            #endregion
+
+            #region Tongue Expression Set
+            unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)XrFaceParameterIndicesANDROID.Tongue_Out];
+            unifiedExpressions[(int)UnifiedExpressions.TongueLeft].Weight = expressions[(int)XrFaceParameterIndicesANDROID.Tongue_Left];
+            unifiedExpressions[(int)UnifiedExpressions.TongueRight].Weight = expressions[(int)XrFaceParameterIndicesANDROID.Tongue_Right];
+            unifiedExpressions[(int)UnifiedExpressions.TongueUp].Weight = expressions[(int)XrFaceParameterIndicesANDROID.Tongue_Up];
+            unifiedExpressions[(int)UnifiedExpressions.TongueDown].Weight = expressions[(int)XrFaceParameterIndicesANDROID.Tongue_Down];
             #endregion
         }
         #endregion

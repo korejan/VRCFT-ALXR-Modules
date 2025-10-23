@@ -26,14 +26,12 @@ Both the ALXR local and remote modules currently support the following OpenXR ex
 | [XR_HTC_facial_tracking](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_HTC_facial_tracking) | Vive Facial Tracker *, Focus 3 / XR Elite add-ons |
 | XR_FB_face_tracking2 | Quest Pro standalone & Link runtimes |
 | [XR_FB_face_tracking](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_FB_face_tracking) | Quest Pro standalone & Link runtimes, [VDXR](https://github.com/mbucchia/VirtualDesktop-OpenXR) |
-| [XR_ANDROID_eye_tracking](https://developer.android.com/develop/xr/openxr/extensions/XR_ANDROID_eye_tracking) | Android XR (Project Moohan?) **
-| [XR_ANDROID_face_tracking](https://developer.android.com/develop/xr/openxr/extensions/XR_ANDROID_face_tracking) | Android XR ** |
+| [XR_ANDROID_eye_tracking](https://developer.android.com/develop/xr/openxr/extensions/XR_ANDROID_eye_tracking) | Android XR - Galaxy XR
+| [XR_ANDROID_face_tracking](https://developer.android.com/develop/xr/openxr/extensions/XR_ANDROID_face_tracking) | Android XR - Galaxy XR |
 
 A full list of supported runtimes/devices can be found [here](https://github.khronos.org/OpenXR-Inventory/extension_support.html#matrix).
      
 * Vive Pro Eye / Facial Tracker requires "Vive console for SteamVR" to be installed for OpenXR support.
-
-** Android XR supporting devices not yet known.
 
 ## ALXR Local Module
 
