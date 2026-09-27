@@ -57,6 +57,13 @@ namespace ALXR
             private set;
         } = false;
 
+        public static ALXR.Quirks Quirks
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get;
+            private set;
+        } = new Quirks();
+
         public static bool SaveConfig(ALXRModuleConfig ALXRModuleConfig, ILogger logger) =>
             SaveConfig(ALXRModuleConfig, logger, ConfigFilename);
 
@@ -136,6 +143,12 @@ namespace ALXR
             logger.LogInformation($"Selected FB eye openness mode: {FBEyeOpennessMode}");
             if (UseEyeExpressionForGazePose)
                 logger.LogInformation("Using eye expressions for eye gaze pose enabled.");
+
+            Quirks = moduleConfig.Quirks;
+
+            logger.LogInformation("Enabled Quirks:");
+            logger.LogInformation($"\tVirtualDesktop.FBFaceTrackingV2TongueHack: {Quirks.VirtualDesktopQuirks.FBFaceTrackingV2TongueHack}");
+
             return moduleConfig;
         }
 
@@ -667,14 +680,25 @@ namespace ALXR
             #endregion
 
             #region V2 Tongue Expression Set
-            unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Out];
-            unifiedExpressions[(int)UnifiedExpressions.TongueCurlUp].Weight = expressions[(int)FBExpression2.Tongue_Tip_alveolar];
-            // no current mappings
-            // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Tip_Interdental];
-            // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Front_Dorsal_Palate];
-            // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Mid_Dorsal_Palate];
-            // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Back_Dorsal_velar];
-            // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Retreat];
+            if (!Quirks.VirtualDesktopQuirks.FBFaceTrackingV2TongueHack) {
+                unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Out];
+                unifiedExpressions[(int)UnifiedExpressions.TongueCurlUp].Weight = expressions[(int)FBExpression2.Tongue_Tip_alveolar];
+                // no current mappings
+                // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Tip_Interdental];
+                // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Front_Dorsal_Palate];
+                // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Mid_Dorsal_Palate];
+                // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Back_Dorsal_velar];
+                // unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight = expressions[(int)FBExpression2.Tongue_Retreat];
+            } else {
+                // VDXR + Android XR: FB2 indices 63-67 actually hold XrFaceParameterIndicesANDROID
+                // Tongue_Out/Left/Right/Up/Down, not the FB2 tongue expressions at those indices.
+                // See VirtualDesktopQuirks.FBFaceTrackingV2TongueHack.
+                unifiedExpressions[(int)UnifiedExpressions.TongueOut].Weight   = expressions[63];
+                unifiedExpressions[(int)UnifiedExpressions.TongueLeft].Weight  = expressions[64];
+                unifiedExpressions[(int)UnifiedExpressions.TongueRight].Weight = expressions[65];
+                unifiedExpressions[(int)UnifiedExpressions.TongueUp].Weight    = expressions[66];
+                unifiedExpressions[(int)UnifiedExpressions.TongueDown].Weight  = expressions[67];
+            }
             #endregion
         }
         #endregion

@@ -14,6 +14,7 @@ This repository contains the source and binaries for two OpenXR based [VRCFT](ht
     - [Common Settings](#common-settings)
       - [Eye Tracking Config](#eye-tracking-config)
       - [Tracking Sensitivity Config](#tracking-sensitivity-config)
+      - [Quirks](#quirks)
     - [Local Module Settings](#local-module-settings)
 
 ## Supported Extensions/Devices
@@ -77,7 +78,7 @@ Both modules come with a configuration file named `ALXRModuleConfig.json` (if it
 The following settings are applicable to both the local and remote modules
 
 #### Eye Tracking Config
-```
+```json
 "EyeTrackingConfig": {
   "FBEyeOpennessMode": "LinearLidTightening",
   "UseEyeExpressionForGazePose": false,
@@ -108,7 +109,7 @@ The following settings are applicable to both the local and remote modules
 `"EyeTrackingFilterParams"` - Some runtimes may output jittery eye-tracking data, when this option is enabled applies smoothing to eye-tracking data using the [1€ Filter](https://gery.casiez.net/1euro/) to both eye position(s) and rotation(s). Disabled by default.
 
 #### Tracking Sensitivity Config
-```
+```json
 "TrackingSensitivityConfig": {
   "Enable": false,
   "ProfileFilename": "AdjerryV4DefaultMultipliers.json"
@@ -116,11 +117,22 @@ The following settings are applicable to both the local and remote modules
 ```
 `"TrackingSensitivityConfig"` - When enabled applies scaling multipliers to expressions weights of [`XR_FB_face_tracking`](https://registry.khronos.org/OpenXR/specs/1.0/html/xrspec.html#XR_FB_face_tracking) extension only. Same functionality as Adjerry's v4 module. Please refer to the `AdjerryV4DefaultMultipliers.json` template file which comes with the modules (or can be found [here](https://github.com/korejan/VRCFT-ALXR-Modules/blob/main/AdjerryV4DefaultMultipliers.json)) to make your own profiles.
 
+#### Quirks
+Optional workarounds for specific runtimes/headsets, all disabled by default. Only enable one if your setup matches its description.
+```json
+"Quirks": {
+  "VirtualDesktopQuirks": {
+    "FBFaceTrackingV2TongueHack": false
+  }
+}
+```
+`"FBFaceTrackingV2TongueHack"` - Enable if you use an Android XR headset (e.g. Galaxy XR) with [VDXR](https://github.com/mbucchia/VirtualDesktop-OpenXR) and tongue tracking is missing or wrong. VDXR passes the headset's tongue expressions through `XR_FB_face_tracking2` slots meant for other expressions; this option reads them correctly. Leave it off for any other setup.
+
 ### Local Module Settings
 
 The following entries in `ALXRModuleConfig.json` are specifically for configuring the local module:
 
-```
+```json
 "LocalConfig": {
   "VerboseLogs": false,
   "HeadlessSession": true,

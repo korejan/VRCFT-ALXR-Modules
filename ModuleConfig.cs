@@ -170,6 +170,50 @@ namespace ALXR
         }
     }
 
+    /// <summary>
+    /// Workarounds for non-standard behaviour of Virtual Desktop's OpenXR runtime (VDXR).
+    /// </summary>
+    public struct VirtualDesktopQuirks
+    {
+        /// <summary>
+        /// For Android XR headsets (e.g. Galaxy XR), VDXR exposes the headset's XR_ANDROID_face_tracking
+        /// weights through XR_FB_face_tracking2 by copying them index-for-index. XR_FB_face_tracking2
+        /// has no tongue left/right/up/down expressions, so the Android tongue weights
+        /// (XrFaceParameterIndicesANDROID.Tongue_Out..Tongue_Down, indices 63-67) end up in the FB2
+        /// slots Tongue_Tip_interdental..Tongue_Back_Dorsal_velar, which mean something else in the FB spec.
+        /// When enabled, those slots are read with their Android meanings instead of their FB2 meanings.
+        /// Only enable this for VDXR + Android XR; with a real XR_FB_face_tracking2 source it gives wrong tongue tracking.
+        /// </summary>
+        [JsonInclude]
+        public bool FBFaceTrackingV2TongueHack;
+
+        public static VirtualDesktopQuirks Default
+        {
+            get => new VirtualDesktopQuirks()
+            {
+                FBFaceTrackingV2TongueHack = false,
+            };
+        }
+    }
+
+    /// <summary>
+    /// Opt-in workarounds for specific runtimes/headsets that do not follow the OpenXR spec.
+    /// All quirks are disabled by default.
+    /// </summary>
+    public struct Quirks
+    {
+        [JsonInclude]
+        public VirtualDesktopQuirks VirtualDesktopQuirks;
+
+        public static Quirks Default
+        {
+            get => new Quirks()
+            {
+                VirtualDesktopQuirks = VirtualDesktopQuirks.Default,
+            };
+        }
+    }
+
     public sealed class ALXRModuleConfig
     {
         [JsonInclude]
@@ -183,6 +227,9 @@ namespace ALXR
 
         [JsonInclude]
         public TrackingSensitivityConfig TrackingSensitivityConfig = TrackingSensitivityConfig.Default;
+
+        [JsonInclude]
+        public Quirks Quirks = Quirks.Default;
 
         private static void AddJsonConverters(JsonSerializerOptions jsonOptions)
         {
